@@ -19,7 +19,7 @@
         <constructor-arg ref="testService"/>
     </bean>
     <bean id="testFileNameProvider" class="ru.otus.hw.config.AppProperties">
-        <constructor-arg name="testFileName" value="questions.csv"/>
+        <constructor-arg name="testFileName" value="/questions.csv"/>
         <constructor-arg name="testFileHeaderSize" value="1"/>
     </bean>
     <bean id="questionDao" class="ru.otus.hw.dao.CsvQuestionDao">
