@@ -15,6 +15,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
+
+    private static final char CSV_COLUMN_SEPARATOR = ';';
+
     private final TestFileNameProvider fileNameProvider;
 
     @Override
@@ -35,6 +38,7 @@ public class CsvQuestionDao implements QuestionDao {
             return new CsvToBeanBuilder<QuestionDto>(reader)
                     .withType(QuestionDto.class)
                     .withSkipLines(this.fileNameProvider.getTestFileHeaderSize())
+                    .withSeparator(CSV_COLUMN_SEPARATOR)
                     .build()
                     .parse();
         } catch (IOException e) {
