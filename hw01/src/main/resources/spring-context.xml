@@ -21,5 +21,8 @@
         <constructor-arg name="testFileName" value="questions"/>
         <constructor-arg name="testFileHeaderSize" value="1"/>
     </bean>
+    <bean id="questionDao" class="ru.otus.hw.dao.CsvQuestionDao">
+        <constructor-arg ref="testFileNameProvider"/>
+    </bean>
 
 </beans>
