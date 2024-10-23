@@ -15,7 +15,7 @@
         <constructor-arg ref="ioService"/>
         <constructor-arg ref="questionDao"/>
     </bean>
-    <bean id="testRunnerServiceImpl" class="ru.otus.hw.service.TestRunnerServiceImpl">
+    <bean id="testRunnerService" class="ru.otus.hw.service.TestRunnerServiceImpl">
         <constructor-arg ref="testService"/>
     </bean>
     <bean id="testFileNameProvider" class="ru.otus.hw.config.AppProperties">
