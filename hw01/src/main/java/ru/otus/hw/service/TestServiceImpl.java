@@ -29,15 +29,16 @@ public class TestServiceImpl implements TestService {
     private void printQuestions(List<Question> questions) {
         for (int i = 0; i < questions.size(); i++) {
             Question question = questions.get(i);
-            this.ioService.printFormattedLine("%s %s%n", i + 1, question.text());
+            this.ioService.printFormattedLine("%s. %s", i + 1, question.text());
 
             List<Answer> questionAnswers = question.answers();
             if (questionAnswers == null) {
                 continue;
             }
             for (int c = 0; c < questionAnswers.size(); c++) {
-                this.ioService.printFormattedLine("\t%s) %s%n", c + 1, questionAnswers.get(c).text());
+                this.ioService.printFormattedLine("\t%s) %s", c + 1, questionAnswers.get(c).text());
             }
+            this.ioService.printLine("");
         }
     }
 }
