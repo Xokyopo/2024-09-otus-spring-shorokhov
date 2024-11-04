@@ -30,9 +30,9 @@ public class JdbcAuthorRepository implements AuthorRepository {
         var queryParameters = Map.of("id", id);
         String queryString = "SELECT id, full_name FROM authors WHERE id = :id";
 
-        Author author = jdbcTemplate.queryForObject(queryString, queryParameters, ROW_MAPPER);
+        List<Author> authors = jdbcTemplate.query(queryString, queryParameters, ROW_MAPPER);
 
-        return author != null ? Optional.of(author) : Optional.empty();
+        return !authors.isEmpty() ? Optional.of(authors.get(0)) : Optional.empty();
     }
 
     private static class AuthorRowMapper implements RowMapper<Author> {
