@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
@@ -89,8 +90,25 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private Book update(Book book) {
-        //...
-        // Выбросить EntityNotFoundException если не обновлено ни одной записи в БД
+        var queryParameters = Map.of(
+                "id", book.getId(),
+                "title", book.getTitle(),
+                "author_id", book.getAuthor().getId(),
+                "genre_id", book.getGenre().getId()
+        );
+        String queryString = """
+                UPDATE books
+                SET
+                    title = :title,
+                    author_id = :author_id,
+                    genre_id = :genre_id
+                WHERE id = :id
+                """.replaceAll("\\s+", " ");
+
+        int updatedRows = jdbcTemplate.update(queryString, queryParameters);
+        if (updatedRows == 0) {
+            throw new EntityNotFoundException(String.format("Book with id = [%s] not found", book.getId()));
+        }
         return book;
     }
 
