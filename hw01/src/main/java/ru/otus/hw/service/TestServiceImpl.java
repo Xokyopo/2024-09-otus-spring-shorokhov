@@ -23,7 +23,7 @@ public class TestServiceImpl implements TestService {
         // Получить вопросы из дао и вывести их с вариантами ответов
 
         try {
-            List<Question> questions = Optional.of(this.questionDao)
+            List<Question> questions = Optional.of(questionDao)
                     .map(QuestionDao::findAll)
                     .filter(list -> !list.isEmpty())
                     .orElseThrow(() -> new QuestionReadException("Question not found"));
@@ -36,16 +36,16 @@ public class TestServiceImpl implements TestService {
     private void printQuestions(List<Question> questions) {
         for (int i = 0; i < questions.size(); i++) {
             Question question = questions.get(i);
-            this.ioService.printFormattedLine("%s. %s", i + 1, question.text());
+            ioService.printFormattedLine("%s. %s", i + 1, question.text());
 
             List<Answer> questionAnswers = question.answers();
             if (questionAnswers == null) {
                 continue;
             }
             for (int c = 0; c < questionAnswers.size(); c++) {
-                this.ioService.printFormattedLine("\t%s) %s", c + 1, questionAnswers.get(c).text());
+                ioService.printFormattedLine("\t%s) %s", c + 1, questionAnswers.get(c).text());
             }
-            this.ioService.printLine("");
+            ioService.printLine("");
         }
     }
 }

@@ -28,7 +28,7 @@ public class CsvQuestionDao implements QuestionDao {
     }
 
     private List<QuestionDto> loadQuestionFromCsv() throws QuestionReadException {
-        String questionFileName = this.fileNameProvider.getTestFileName();
+        String questionFileName = fileNameProvider.getTestFileName();
         InputStream inputStream = getClass().getResourceAsStream(questionFileName);
         if (inputStream == null) {
             throw new QuestionReadException(String.format("Resource %s not fond", questionFileName));
@@ -37,7 +37,7 @@ public class CsvQuestionDao implements QuestionDao {
         try (Reader reader = new InputStreamReader(inputStream)) {
             return new CsvToBeanBuilder<QuestionDto>(reader)
                     .withType(QuestionDto.class)
-                    .withSkipLines(this.fileNameProvider.getTestFileHeaderSize())
+                    .withSkipLines(fileNameProvider.getTestFileHeaderSize())
                     .withSeparator(CSV_COLUMN_SEPARATOR)
                     .build()
                     .parse();

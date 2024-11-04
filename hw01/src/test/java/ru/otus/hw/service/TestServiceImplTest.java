@@ -22,38 +22,38 @@ class TestServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        this.ioService = new TestIoService();
-        this.questionDao = Mockito.mock(QuestionDao.class);
-        this.testService = new TestServiceImpl(this.ioService, this.questionDao);
+        ioService = new TestIoService();
+        questionDao = Mockito.mock(QuestionDao.class);
+        testService = new TestServiceImpl(ioService, questionDao);
     }
 
     @Test
     void executeTest_ShouldReturnTrue_WhenExecuteFindAllMethodFromQuestionDao() {
-        Mockito.when(this.questionDao.findAll()).thenReturn(List.of(createTestQuestion()));
+        Mockito.when(questionDao.findAll()).thenReturn(List.of(createTestQuestion()));
 
-        this.testService.executeTest();
+        testService.executeTest();
 
-        Mockito.verify(this.questionDao, Mockito.atLeastOnce()).findAll();
+        Mockito.verify(questionDao, Mockito.atLeastOnce()).findAll();
     }
 
     @Test
     void executeTest_ShouldReturnTrue_WhenExecuteAnyMethodFromIoService() {
-        Mockito.when(this.questionDao.findAll()).thenReturn(List.of(createTestQuestion()));
+        Mockito.when(questionDao.findAll()).thenReturn(List.of(createTestQuestion()));
 
-        this.testService.executeTest();
+        testService.executeTest();
 
-        assertFalse(this.ioService.ioBuffer.isEmpty());
+        assertFalse(ioService.ioBuffer.isEmpty());
     }
 
     @Test
     void executeTest_ShouldReturnTrue_WhenSenForPrintQuestion() {
         Question question = createTestQuestion();
-        Mockito.when(this.questionDao.findAll()).thenReturn(List.of(question));
+        Mockito.when(questionDao.findAll()).thenReturn(List.of(question));
 
-        this.testService.executeTest();
+        testService.executeTest();
 
         String questionText = question.text();
-        boolean questionPresent = this.ioService.ioBuffer.stream().anyMatch(line -> line.contains(questionText));
+        boolean questionPresent = ioService.ioBuffer.stream().anyMatch(line -> line.contains(questionText));
 
         assertTrue(questionPresent);
     }
@@ -61,15 +61,15 @@ class TestServiceImplTest {
     @Test
     void executeTest_ShouldReturnTrue_WhenSenForPrintAllAnswer() {
         Question question = createTestQuestion();
-        Mockito.when(this.questionDao.findAll()).thenReturn(List.of(question));
+        Mockito.when(questionDao.findAll()).thenReturn(List.of(question));
 
-        this.testService.executeTest();
+        testService.executeTest();
 
         List<Answer> answers = question.answers();
         boolean allAnswerPresent = answers.stream()
                 .map(Answer::text)
                 .allMatch(answerText ->
-                        this.ioService.ioBuffer.stream().anyMatch(line -> line.contains(answerText))
+                        ioService.ioBuffer.stream().anyMatch(line -> line.contains(answerText))
                 );
 
         assertTrue(allAnswerPresent);
@@ -88,16 +88,16 @@ class TestServiceImplTest {
 
         @Override
         public void printLine(String s) {
-            this.ioBuffer.add(s);
+            ioBuffer.add(s);
         }
 
         @Override
         public void printFormattedLine(String s, Object... args) {
-            this.ioBuffer.add(String.format(s, args));
+            ioBuffer.add(String.format(s, args));
         }
 
         public List<String> getIoBuffer() {
-            return Collections.unmodifiableList(this.ioBuffer);
+            return Collections.unmodifiableList(ioBuffer);
         }
     }
 }
