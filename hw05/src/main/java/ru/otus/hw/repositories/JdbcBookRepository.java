@@ -11,7 +11,6 @@ import ru.otus.hw.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +29,20 @@ public class JdbcBookRepository implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        return new ArrayList<>();
+        String queryString = """
+                SELECT
+                    books.id,
+                    books.title,
+                    books.author_id,
+                    books.genre_id,
+                    authors.full_name as `authors_full_name`,
+                    genres.name as `genres_name`
+                FROM books
+                    LEFT JOIN authors on authors.id = books.author_id
+                    LEFT JOIN genres on genres.id = books.genre_id
+                """.replaceAll("\\s+", " ");
+
+        return jdbcTemplate.query(queryString, ROW_MAPPER);
     }
 
     @Override
