@@ -21,7 +21,7 @@ public class JdbcAuthorRepository implements AuthorRepository {
 
     @Override
     public List<Author> findAll() {
-        return new ArrayList<>();
+        return jdbcTemplate.query("SELECT id, full_name FROM authors", ROW_MAPPER);
     }
 
     @Override
