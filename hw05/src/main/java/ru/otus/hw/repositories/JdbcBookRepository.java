@@ -73,7 +73,9 @@ public class JdbcBookRepository implements BookRepository {
 
     @Override
     public void deleteById(long id) {
-        //...
+        var queryParameters = Map.of("id", id);
+
+        jdbcTemplate.update("DELETE FROM books WHERE id = :id", queryParameters);
     }
 
     private Book insert(Book book) {
