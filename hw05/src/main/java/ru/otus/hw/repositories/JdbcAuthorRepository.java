@@ -8,13 +8,14 @@ import ru.otus.hw.models.Author;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
 public class JdbcAuthorRepository implements AuthorRepository {
+
+    private static final RowMapper<Author> ROW_MAPPER = new AuthorRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
