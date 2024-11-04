@@ -34,7 +34,7 @@ public class JdbcGenreRepository implements GenreRepository {
 
         @Override
         public Genre mapRow(ResultSet rs, int i) throws SQLException {
-            return null;
+            return new Genre(rs.getLong("id"), rs.getString("name"));
         }
     }
 }
