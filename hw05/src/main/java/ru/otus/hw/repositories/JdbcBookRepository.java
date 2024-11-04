@@ -42,9 +42,9 @@ public class JdbcBookRepository implements BookRepository {
                 WHERE books.id = :id
                 """.replaceAll("\\s+", " ");
 
-        Book book = jdbcTemplate.queryForObject(queryString, queryParameters, ROW_MAPPER);
+        List<Book> books = jdbcTemplate.query(queryString, queryParameters, ROW_MAPPER);
 
-        return book != null ? Optional.of(book) : Optional.empty();
+        return !books.isEmpty() ? Optional.of(books.get(0)) : Optional.empty();
     }
 
     @Override
