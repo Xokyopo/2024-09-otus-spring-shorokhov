@@ -16,6 +16,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class JdbcGenreRepository implements GenreRepository {
 
+    private static final RowMapper<Genre> ROW_MAPPER = new GnreRowMapper();
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
