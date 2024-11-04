@@ -2,6 +2,7 @@ package ru.otus.hw.repositories;
 
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -82,8 +83,19 @@ public class JdbcBookRepository implements BookRepository {
     private Book insert(Book book) {
         var keyHolder = new GeneratedKeyHolder();
 
-        //...
+        var queryParameters = Map.of(
+                "title", book.getTitle(),
+                "author_id", book.getAuthor().getId(),
+                "genre_id", book.getGenre().getId()
+        );
+        String queryString = """
+                INSERT INTO books (title, author_id, genre_id)
+                VALUES (:title, :author_id, :genre_id)
+                """.replaceAll("\\s+", " ");
 
+        jdbcTemplate.update(queryString, new MapSqlParameterSource(queryParameters), keyHolder);
+        //...
+        //Так и не  понял что тут от меня ожидалось?
         //noinspection DataFlowIssue
         book.setId(keyHolder.getKeyAs(Long.class));
         return book;
