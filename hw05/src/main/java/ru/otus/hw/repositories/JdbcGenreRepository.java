@@ -8,7 +8,6 @@ import ru.otus.hw.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public class JdbcGenreRepository implements GenreRepository {
 
     @Override
     public List<Genre> findAll() {
-        return new ArrayList<>();
+        return jdbcTemplate.query("SELECT id, name FROM genres", ROW_MAPPER);
     }
 
     @Override
