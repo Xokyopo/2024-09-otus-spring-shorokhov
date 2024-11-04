@@ -1,6 +1,8 @@
 package ru.otus.hw.repositories;
 
+import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.models.Genre;
 
@@ -11,7 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
 public class JdbcGenreRepository implements GenreRepository {
+
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
     public List<Genre> findAll() {
