@@ -5,7 +5,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
+import ru.otus.hw.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,7 +66,13 @@ public class JdbcBookRepository implements BookRepository {
 
         @Override
         public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return null;
+            Author author = rs.getLong("author_id") > 0
+                    ? new Author(rs.getLong("author_id"), rs.getString("authors_full_name"))
+                    : null;
+            Genre genre = rs.getLong("genre_id") > 0
+                    ? new Genre(rs.getLong("genre_id"), rs.getString("genres_name"))
+                    : null;
+            return new Book(rs.getLong("id"), rs.getString("title"), author, genre);
         }
     }
 }
