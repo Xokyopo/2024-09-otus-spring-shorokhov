@@ -16,7 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class JdbcGenreRepository implements GenreRepository {
 
-    private static final RowMapper<Genre> ROW_MAPPER = new GnreRowMapper();
+    private static final RowMapper<Genre> ROW_MAPPER = new GenreRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -30,7 +30,7 @@ public class JdbcGenreRepository implements GenreRepository {
         return Optional.empty();
     }
 
-    private static class GnreRowMapper implements RowMapper<Genre> {
+    private static class GenreRowMapper implements RowMapper<Genre> {
 
         @Override
         public Genre mapRow(ResultSet rs, int i) throws SQLException {
