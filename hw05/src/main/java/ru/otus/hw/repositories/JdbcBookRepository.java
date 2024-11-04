@@ -12,6 +12,7 @@ import ru.otus.hw.models.Genre;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -24,7 +25,24 @@ public class JdbcBookRepository implements BookRepository {
 
     @Override
     public Optional<Book> findById(long id) {
-        return Optional.empty();
+        var queryParameters = Map.of("id", id);
+        String queryString = """
+                SELECT
+                    books.id,
+                    books.title,
+                    books.author_id,
+                    books.genre_id,
+                    authors.full_name as `authors_full_name`,
+                    genres.name as `genres_name`
+                FROM books
+                    LEFT JOIN authors on authors.id = books.author_id
+                    LEFT JOIN genres on genres.id = books.genre_id
+                WHERE books.id = :id
+                """.replaceAll("\\s+", " ");
+
+        Book book = jdbcTemplate.queryForObject(queryString, queryParameters, ROW_MAPPER);
+
+        return book != null ? Optional.of(book) : Optional.empty();
     }
 
     @Override
