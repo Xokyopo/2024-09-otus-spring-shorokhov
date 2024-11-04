@@ -8,5 +8,5 @@ import lombok.Data;
 public class AppProperties implements TestFileNameProvider {
     private String testFileName;
 
-    private Integer testFileHeaderSize = 1;
+    private int testFileHeaderSize = 1;
 }
