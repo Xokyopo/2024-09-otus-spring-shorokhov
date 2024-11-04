@@ -30,9 +30,9 @@ public class JdbcGenreRepository implements GenreRepository {
         var queryParameters = Map.of("id", id);
         String queryString = "SELECT id, name FROM genres WHERE id = :id";
 
-        Genre genre = jdbcTemplate.queryForObject(queryString, queryParameters, ROW_MAPPER);
+        List<Genre> genres = jdbcTemplate.query(queryString, queryParameters, ROW_MAPPER);
 
-        return genre != null ? Optional.of(genre) : Optional.empty();
+        return !genres.isEmpty() ? Optional.of(genres.get(0)) : Optional.empty();
     }
 
     private static class GenreRowMapper implements RowMapper<Genre> {
