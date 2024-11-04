@@ -17,6 +17,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class JdbcBookRepository implements BookRepository {
 
+    private static final RowMapper<Book> ROW_MAPPER = new BookRowMapper();
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
