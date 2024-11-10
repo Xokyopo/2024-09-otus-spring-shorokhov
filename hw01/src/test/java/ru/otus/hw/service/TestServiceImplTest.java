@@ -8,7 +8,7 @@ import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,15 +16,31 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TestServiceImplTest {
 
-    private TestIoService ioService;
+    private IOService ioService;
     private QuestionDao questionDao;
     private TestServiceImpl testService;
+    private List<String> ioBuffer;
 
     @BeforeEach
     void setUp() {
-        ioService = new TestIoService();
+        ioBuffer = new ArrayList<>();
+        ioService = Mockito.mock(IOService.class);
         questionDao = Mockito.mock(QuestionDao.class);
         testService = new TestServiceImpl(ioService, questionDao);
+
+        Mockito.doAnswer(a -> {
+            Arrays.stream(a.getArguments())
+                    .map(Object::toString)
+                    .forEach(ioBuffer::add);
+            return a;
+        }).when(ioService).printFormattedLine(Mockito.any(), Mockito.any(Object[].class));
+
+        Mockito.doAnswer(a -> {
+            Arrays.stream(a.getArguments())
+                    .map(Object::toString)
+                    .forEach(ioBuffer::add);
+            return a;
+        }).when(ioService).printLine(Mockito.any());
     }
 
     @Test
@@ -42,7 +58,7 @@ class TestServiceImplTest {
 
         testService.executeTest();
 
-        assertFalse(ioService.ioBuffer.isEmpty());
+        assertFalse(ioBuffer.isEmpty());
     }
 
     @Test
@@ -53,7 +69,7 @@ class TestServiceImplTest {
         testService.executeTest();
 
         String questionText = question.text();
-        boolean questionPresent = ioService.ioBuffer.stream().anyMatch(line -> line.contains(questionText));
+        boolean questionPresent = ioBuffer.stream().anyMatch(line -> line.contains(questionText));
 
         assertTrue(questionPresent);
     }
@@ -68,9 +84,7 @@ class TestServiceImplTest {
         List<Answer> answers = question.answers();
         boolean allAnswerPresent = answers.stream()
                 .map(Answer::text)
-                .allMatch(answerText ->
-                        ioService.ioBuffer.stream().anyMatch(line -> line.contains(answerText))
-                );
+                .allMatch(answerText -> ioBuffer.stream().anyMatch(line -> line.contains(answerText)));
 
         assertTrue(allAnswerPresent);
     }
@@ -81,23 +95,5 @@ class TestServiceImplTest {
                 new Answer("second answer", true)
         );
         return new Question("question?", answers);
-    }
-
-    private static class TestIoService implements IOService {
-        private final List<String> ioBuffer = new ArrayList<>();
-
-        @Override
-        public void printLine(String s) {
-            ioBuffer.add(s);
-        }
-
-        @Override
-        public void printFormattedLine(String s, Object... args) {
-            ioBuffer.add(String.format(s, args));
-        }
-
-        public List<String> getIoBuffer() {
-            return Collections.unmodifiableList(ioBuffer);
-        }
     }
 }
