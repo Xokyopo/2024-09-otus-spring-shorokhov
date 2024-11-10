@@ -29,7 +29,7 @@ public class TestServiceImpl implements TestService {
                     .orElseThrow(() -> new QuestionReadException("Question not found"));
             printQuestions(questions);
         } catch (QuestionReadException e) {
-            ioService.printLine("Question not found");
+            ioService.printLine("Error during get and print questions");
         }
     }
 
@@ -40,7 +40,7 @@ public class TestServiceImpl implements TestService {
 
             List<Answer> questionAnswers = question.answers();
             if (questionAnswers == null) {
-                continue;
+                throw new QuestionReadException(String.format("Answers not found for question [%s]", question.text()));
             }
             for (int c = 0; c < questionAnswers.size(); c++) {
                 ioService.printFormattedLine("\t%s) %s", c + 1, questionAnswers.get(c).text());
