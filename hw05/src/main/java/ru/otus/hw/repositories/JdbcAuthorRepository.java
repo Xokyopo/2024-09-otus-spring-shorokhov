@@ -32,7 +32,7 @@ public class JdbcAuthorRepository implements AuthorRepository {
 
         List<Author> authors = jdbcTemplate.query(queryString, queryParameters, ROW_MAPPER);
 
-        return !authors.isEmpty() ? Optional.of(authors.get(0)) : Optional.empty();
+        return authors.stream().findFirst();
     }
 
     private static class AuthorRowMapper implements RowMapper<Author> {
