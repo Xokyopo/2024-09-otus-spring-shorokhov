@@ -32,7 +32,7 @@ public class JdbcGenreRepository implements GenreRepository {
 
         List<Genre> genres = jdbcTemplate.query(queryString, queryParameters, ROW_MAPPER);
 
-        return !genres.isEmpty() ? Optional.of(genres.get(0)) : Optional.empty();
+        return genres.stream().findAny();
     }
 
     private static class GenreRowMapper implements RowMapper<Genre> {
