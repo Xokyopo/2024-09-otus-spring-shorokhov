@@ -44,7 +44,7 @@ public class JdbcBookRepository implements BookRepository {
 
         List<Book> books = jdbcTemplate.query(queryString, queryParameters, ROW_MAPPER);
 
-        return !books.isEmpty() ? Optional.of(books.get(0)) : Optional.empty();
+        return books.stream().findFirst();
     }
 
     @Override
