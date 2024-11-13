@@ -40,7 +40,7 @@ public class JdbcBookRepository implements BookRepository {
                     LEFT JOIN authors on authors.id = books.author_id
                     LEFT JOIN genres on genres.id = books.genre_id
                 WHERE books.id = :id
-                """.replaceAll("\\s+", " ");
+                """;
 
         List<Book> books = jdbcTemplate.query(queryString, queryParameters, ROW_MAPPER);
 
@@ -60,7 +60,7 @@ public class JdbcBookRepository implements BookRepository {
                 FROM books
                     LEFT JOIN authors on authors.id = books.author_id
                     LEFT JOIN genres on genres.id = books.genre_id
-                """.replaceAll("\\s+", " ");
+                """;
 
         return jdbcTemplate.query(queryString, ROW_MAPPER);
     }
@@ -91,7 +91,7 @@ public class JdbcBookRepository implements BookRepository {
         String queryString = """
                 INSERT INTO books (title, author_id, genre_id)
                 VALUES (:title, :author_id, :genre_id)
-                """.replaceAll("\\s+", " ");
+                """;
 
         jdbcTemplate.update(queryString, new MapSqlParameterSource(queryParameters), keyHolder);
         //...
@@ -115,7 +115,7 @@ public class JdbcBookRepository implements BookRepository {
                     author_id = :author_id,
                     genre_id = :genre_id
                 WHERE id = :id
-                """.replaceAll("\\s+", " ");
+                """;
 
         int updatedRows = jdbcTemplate.update(queryString, queryParameters);
         if (updatedRows == 0) {
