@@ -18,4 +18,8 @@ public class BookConverter {
                 authorConverter.authorToString(book.getAuthor()),
                 genreConverter.genreToString(book.getGenre()));
     }
+
+    public String bookToStringForComment(Book book) {
+        return "Id: %d, title: %s".formatted(book.getId(), book.getTitle());
+    }
 }
