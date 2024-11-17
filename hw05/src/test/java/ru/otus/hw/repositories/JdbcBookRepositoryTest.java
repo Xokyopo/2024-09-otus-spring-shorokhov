@@ -8,9 +8,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import ru.otus.hw.models.Author;
-import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Genre;
+import ru.otus.hw.entities.Author;
+import ru.otus.hw.entities.Book;
+import ru.otus.hw.entities.Genre;
 
 import java.util.List;
 import java.util.stream.IntStream;
