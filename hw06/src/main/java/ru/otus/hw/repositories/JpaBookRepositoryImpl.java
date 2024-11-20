@@ -1,6 +1,5 @@
 package ru.otus.hw.repositories;
 
-import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
@@ -16,12 +15,14 @@ import java.util.Optional;
 public class JpaBookRepositoryImpl implements BookRepository {
     private static final String ENTITY_GRAPH_TYPE_LOAD = "jakarta.persistence.loadgraph";
 
+    private static final String DEFAULT_ENTITY_GRAPH = "book-main-eg";
+
     @PersistenceContext
     private EntityManager em;
 
     @Override
     public Optional<Book> findById(long id) {
-        EntityGraph<Book> bookEntityGraph = em.createEntityGraph(Book.class);
+        Object bookEntityGraph = em.getEntityGraph(DEFAULT_ENTITY_GRAPH);
         Map<String, Object> entityGraphInjection = Map.of(ENTITY_GRAPH_TYPE_LOAD, bookEntityGraph);
 
         return Optional.ofNullable(em.find(Book.class, id, entityGraphInjection));
@@ -29,7 +30,7 @@ public class JpaBookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        EntityGraph<Book> bookEntityGraph = em.createEntityGraph(Book.class);
+        Object bookEntityGraph = em.getEntityGraph(DEFAULT_ENTITY_GRAPH);
 
         return em.createQuery("FROM Book b", Book.class)
                 .setHint(ENTITY_GRAPH_TYPE_LOAD, bookEntityGraph)

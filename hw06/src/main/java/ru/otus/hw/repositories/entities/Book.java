@@ -18,6 +18,7 @@ import lombok.ToString;
 
 
 @NamedEntityGraph(
+        name = "book-main-eg",
         attributeNodes = {
                 @NamedAttributeNode("author"),
                 @NamedAttributeNode("genre"),
