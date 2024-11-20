@@ -9,19 +9,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
+
 @Repository
 public class JpaCommentRepositoryImpl implements CommentRepository {
-    private static final String ENTITY_GRAPH_TYPE_LOAD = "jakarta.persistence.loadgraph";
 
     private static final String DEFAULT_ENTITY_GRAPH = "comment-main-eg";
+
+    private static final String FULL_ENTITY_GRAPH = "comment-full-eg";
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
     public Optional<Comment> findById(long id) {
-        Object commentEntityGraph = em.getEntityGraph(DEFAULT_ENTITY_GRAPH);
-        Map<String, Object> entityGraphInjection = Map.of(ENTITY_GRAPH_TYPE_LOAD, commentEntityGraph);
+        Object commentEntityGraph = em.getEntityGraph(FULL_ENTITY_GRAPH);
+        Map<String, Object> entityGraphInjection = Map.of(EntityGraphType.LOAD.getKey(), commentEntityGraph);
 
         return Optional.ofNullable(em.find(Comment.class, id, entityGraphInjection));
     }
@@ -32,7 +35,7 @@ public class JpaCommentRepositoryImpl implements CommentRepository {
 
         return em.createQuery("FROM Comment c WHERE c.source.id = :bookId", Comment.class)
                 .setParameter("bookId", bookId)
-                .setHint(ENTITY_GRAPH_TYPE_LOAD, commentEntityGraph)
+                .setHint(EntityGraphType.FETCH.getKey(), commentEntityGraph)
                 .getResultList();
     }
 
