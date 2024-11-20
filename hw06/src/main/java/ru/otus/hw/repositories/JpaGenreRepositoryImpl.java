@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class JpaGenreRepository implements GenreRepository {
+public class JpaGenreRepositoryImpl implements GenreRepository {
 
     @PersistenceContext
     private EntityManager em;
