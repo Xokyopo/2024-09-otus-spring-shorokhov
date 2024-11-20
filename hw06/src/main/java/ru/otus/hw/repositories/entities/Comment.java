@@ -21,6 +21,12 @@ import lombok.ToString;
 @NamedEntityGraph(
         name = "comment-main-eg",
         attributeNodes = {
+                @NamedAttributeNode(value = "source")
+        }
+)
+@NamedEntityGraph(
+        name = "comment-full-eg",
+        attributeNodes = {
                 @NamedAttributeNode(value = "source", subgraph = "source-subgraph")
         },
         subgraphs = {
