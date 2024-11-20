@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class JpaBookRepository implements BookRepository {
+public class JpaBookRepositoryImpl implements BookRepository {
     private static final String ENTITY_GRAPH_TYPE_LOAD = "jakarta.persistence.loadgraph";
 
     @PersistenceContext
