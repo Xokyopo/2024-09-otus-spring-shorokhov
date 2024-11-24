@@ -59,7 +59,6 @@ class JpaBookRepositoryImplTest {
         var expectedBooks = dbBooks;
 
         assertThat(actualBooks).containsExactlyElementsOf(expectedBooks);
-        actualBooks.forEach(System.out::println);
     }
 
     @DisplayName("должен сохранять новую книгу")
