@@ -12,6 +12,7 @@ import ru.otus.hw.repositories.entities.Author;
 import ru.otus.hw.repositories.entities.Book;
 import ru.otus.hw.repositories.entities.Genre;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -45,6 +46,9 @@ class JpaBookRepositoryImplTest {
         var actualBook = repository.findById(expectedBook.getId());
         assertThat(actualBook).isPresent()
                 .get()
+                .usingRecursiveComparison()
+                .withComparatorForType(Comparator.comparing(Author::getId), Author.class)
+                .withComparatorForType(Comparator.comparing(Genre::getId), Genre.class)
                 .isEqualTo(expectedBook);
     }
 
@@ -65,11 +69,17 @@ class JpaBookRepositoryImplTest {
         var returnedBook = repository.save(expectedBook);
         assertThat(returnedBook).isNotNull()
                 .matches(book -> book.getId() > 0)
-                .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
+                .usingRecursiveComparison()
+                .withComparatorForType(Comparator.comparing(Author::getId), Author.class)
+                .withComparatorForType(Comparator.comparing(Genre::getId), Genre.class)
+                .isEqualTo(expectedBook);
 
         assertThat(repository.findById(returnedBook.getId()))
                 .isPresent()
                 .get()
+                .usingRecursiveComparison()
+                .withComparatorForType(Comparator.comparing(Author::getId), Author.class)
+                .withComparatorForType(Comparator.comparing(Genre::getId), Genre.class)
                 .isEqualTo(returnedBook);
     }
 
@@ -81,16 +91,27 @@ class JpaBookRepositoryImplTest {
         assertThat(repository.findById(expectedBook.getId()))
                 .isPresent()
                 .get()
+                .usingRecursiveComparison()
+                .withComparatorForType(Comparator.comparing(Author::getId), Author.class)
+                .withComparatorForType(Comparator.comparing(Genre::getId), Genre.class)
                 .isNotEqualTo(expectedBook);
 
         var returnedBook = repository.save(expectedBook);
-        assertThat(returnedBook).isNotNull()
+        assertThat(returnedBook)
+                .isNotNull()
                 .matches(book -> book.getId() > 0)
-                .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .withComparatorForType(Comparator.comparing(Author::getId), Author.class)
+                .withComparatorForType(Comparator.comparing(Genre::getId), Genre.class)
+                .isEqualTo(expectedBook);
 
         assertThat(repository.findById(returnedBook.getId()))
                 .isPresent()
                 .get()
+                .usingRecursiveComparison()
+                .withComparatorForType(Comparator.comparing(Author::getId), Author.class)
+                .withComparatorForType(Comparator.comparing(Genre::getId), Genre.class)
                 .isEqualTo(returnedBook);
     }
 
