@@ -1,5 +1,6 @@
 package ru.otus.hw.repositories;
 
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -50,10 +51,12 @@ class JpaCommentRepositoryImplTest {
 
         assertThat(actual)
                 .isNotNull()
-                .usingRecursiveComparison()
-                .ignoringFields("id")
-                .withComparatorForType(Comparator.comparing(Book::getId), Book.class)
-                .isEqualTo(expected);
+                .usingRecursiveFieldByFieldElementComparator(
+                        RecursiveComparisonConfiguration.builder()
+                                .withIgnoredFields("id")
+                                .withComparatorForType(Comparator.comparing(Book::getId), Book.class)
+                                .build())
+                .containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
