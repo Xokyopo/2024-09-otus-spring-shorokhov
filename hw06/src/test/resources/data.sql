@@ -12,3 +12,12 @@ insert into books(title, author_id, genre_id)
 values ('BookTitle_1', 1, 1),
        ('BookTitle_2', 2, 2),
        ('BookTitle_3', 3, 3);
+
+
+insert into comments(text, source_id)
+values ('Comment_11', 1),
+       ('Comment_21', 1),
+       ('Comment_32', 2),
+       ('Comment_42', 2),
+       ('Comment_53', 3),
+       ('Comment_63', 3);
