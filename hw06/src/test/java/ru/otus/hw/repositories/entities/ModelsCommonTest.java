@@ -1,4 +1,4 @@
-package ru.otus.hw.entities;
+package ru.otus.hw.repositories.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,7 +42,6 @@ class ModelsCommonTest {
          */
         var reflections = new Reflections("ru.otus.hw.repositories.entities");
         entitiesClasses = reflections.getTypesAnnotatedWith(Entity.class);
-
     }
 
     @ParameterizedTest
