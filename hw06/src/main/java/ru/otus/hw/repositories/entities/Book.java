@@ -1,5 +1,6 @@
 package ru.otus.hw.repositories.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -37,10 +38,10 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "id")
+    @Column(name = "id")
     private long id;
 
-    @JoinColumn(name = "title")
+    @Column(name = "title")
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
