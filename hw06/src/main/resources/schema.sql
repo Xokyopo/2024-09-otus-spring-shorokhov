@@ -1,18 +1,18 @@
-create table authors
+create table if not exists authors
 (
     id        bigserial,
     full_name varchar(255),
     primary key (id)
 );
 
-create table genres
+create table if not exists genres
 (
     id   bigserial,
     name varchar(255),
     primary key (id)
 );
 
-create table books
+create table if not exists books
 (
     id        bigserial,
     title     varchar(255),
@@ -21,7 +21,7 @@ create table books
     primary key (id)
 );
 
-create table comments
+create table if not exists comments
 (
     id        bigserial,
     text      varchar(1000),
