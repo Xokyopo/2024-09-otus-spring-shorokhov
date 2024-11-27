@@ -51,14 +51,13 @@ import lombok.ToString;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "id")
+    @Column(name = "id")
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_id")
     private Book source;
 
-    @JoinColumn(name = "text")
-    @Column(length = 1000)
+    @Column(name = "text", length = 1000)
     private String text;
 }
