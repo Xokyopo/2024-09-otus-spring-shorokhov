@@ -172,8 +172,7 @@ class CommentServiceImplTest {
 
         Comment updatedinsertedComment = service.update(
                 unUpdatedComment.getId(),
-                unUpdatedComment.getText(),
-                unUpdatedComment.getSource().getId()
+                unUpdatedComment.getText()
         );
         Assertions.assertNotNull(updatedinsertedComment);
         Assertions.assertDoesNotThrow(updatedinsertedComment::getId);
@@ -205,8 +204,7 @@ class CommentServiceImplTest {
 
         Comment actual = service.update(
                 unUpdatedComment.getId(),
-                unUpdatedComment.getText(),
-                unUpdatedComment.getSource().getId()
+                unUpdatedComment.getText()
         );
         Comment expected = testEm.find(Comment.class, actual.getId());
 
